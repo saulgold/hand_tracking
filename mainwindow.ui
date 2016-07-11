@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
-    <height>449</height>
+    <width>911</width>
+    <height>619</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,71 @@
    <widget class="QLabel" name="videoScreen">
     <property name="geometry">
      <rect>
-      <x>130</x>
-      <y>20</y>
-      <width>491</width>
-      <height>331</height>
+      <x>50</x>
+      <y>40</y>
+      <width>721</width>
+      <height>491</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="thresholdSlider">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>220</y>
+      <width>22</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="blurSlider">
+    <property name="geometry">
+     <rect>
+      <x>770</x>
+      <y>220</y>
+      <width>22</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="minimum">
+     <number>2</number>
+    </property>
+    <property name="maximum">
+     <number>20</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blurLabel">
+    <property name="geometry">
+     <rect>
+      <x>760</x>
+      <y>400</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="thresholdLabel">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>400</y>
+      <width>47</width>
+      <height>13</height>
      </rect>
     </property>
     <property name="text">
@@ -31,5 +92,38 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>blurSlider</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>blurLabel</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>780</x>
+     <y>375</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>781</x>
+     <y>411</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>thresholdSlider</sender>
+   <signal>sliderMoved(int)</signal>
+   <receiver>thresholdLabel</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>825</x>
+     <y>378</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>832</x>
+     <y>406</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>
