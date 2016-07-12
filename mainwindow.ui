@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>911</width>
+    <width>1019</width>
     <height>619</height>
    </rect>
   </property>
@@ -17,8 +17,8 @@
    <widget class="QLabel" name="videoScreen">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>40</y>
+      <x>30</x>
+      <y>20</y>
       <width>721</width>
       <height>491</height>
      </rect>
@@ -35,6 +35,9 @@
       <width>22</width>
       <height>160</height>
      </rect>
+    </property>
+    <property name="minimum">
+     <number>0</number>
     </property>
     <property name="maximum">
      <number>255</number>
@@ -53,7 +56,7 @@
      </rect>
     </property>
     <property name="minimum">
-     <number>2</number>
+     <number>0</number>
     </property>
     <property name="maximum">
      <number>20</number>
@@ -80,6 +83,219 @@
      <rect>
       <x>820</x>
       <y>400</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QSlider" name="minSlider1">
+    <property name="geometry">
+     <rect>
+      <x>790</x>
+      <y>30</y>
+      <width>22</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="minSlider2">
+    <property name="geometry">
+     <rect>
+      <x>820</x>
+      <y>30</y>
+      <width>22</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="minSlider3">
+    <property name="geometry">
+     <rect>
+      <x>850</x>
+      <y>30</y>
+      <width>22</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="maxSlider1">
+    <property name="geometry">
+     <rect>
+      <x>910</x>
+      <y>30</y>
+      <width>22</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="value">
+     <number>255</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="maxSlider2">
+    <property name="geometry">
+     <rect>
+      <x>950</x>
+      <y>30</y>
+      <width>22</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="value">
+     <number>255</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QSlider" name="maxSlider3">
+    <property name="geometry">
+     <rect>
+      <x>990</x>
+      <y>30</y>
+      <width>22</width>
+      <height>160</height>
+     </rect>
+    </property>
+    <property name="maximum">
+     <number>255</number>
+    </property>
+    <property name="value">
+     <number>255</number>
+    </property>
+    <property name="orientation">
+     <enum>Qt::Vertical</enum>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blurLabel_2">
+    <property name="geometry">
+     <rect>
+      <x>750</x>
+      <y>190</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blurLabel_3">
+    <property name="geometry">
+     <rect>
+      <x>800</x>
+      <y>190</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blurLabel_4">
+    <property name="geometry">
+     <rect>
+      <x>840</x>
+      <y>200</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blurLabel_5">
+    <property name="geometry">
+     <rect>
+      <x>890</x>
+      <y>200</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blurLabel_6">
+    <property name="geometry">
+     <rect>
+      <x>980</x>
+      <y>200</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="blurLabel_7">
+    <property name="geometry">
+     <rect>
+      <x>940</x>
+      <y>200</y>
+      <width>47</width>
+      <height>13</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="backgroudCalibration">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>440</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="getThreshold">
+    <property name="geometry">
+     <rect>
+      <x>780</x>
+      <y>500</y>
+      <width>75</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="meanIntensityLabel">
+    <property name="geometry">
+     <rect>
+      <x>880</x>
+      <y>510</y>
       <width>47</width>
       <height>13</height>
      </rect>
@@ -122,6 +338,102 @@
     <hint type="destinationlabel">
      <x>832</x>
      <y>406</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>minSlider1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>blurLabel_2</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>796</x>
+     <y>179</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>778</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>minSlider2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>blurLabel_3</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>831</x>
+     <y>154</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>829</x>
+     <y>197</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>minSlider3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>blurLabel_4</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>863</x>
+     <y>173</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>866</x>
+     <y>207</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxSlider1</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>blurLabel_5</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>912</x>
+     <y>163</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>913</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxSlider2</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>blurLabel_7</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>960</x>
+     <y>182</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>959</x>
+     <y>208</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>maxSlider3</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>blurLabel_6</receiver>
+   <slot>setNum(int)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>1001</x>
+     <y>189</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1000</x>
+     <y>209</y>
     </hint>
    </hints>
   </connection>

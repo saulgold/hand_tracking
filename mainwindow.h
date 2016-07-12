@@ -55,6 +55,25 @@ private slots:
 
     void on_blurSlider_valueChanged(int value);
 
+    void on_minSlider1_valueChanged(int value);
+
+    void on_minSlider2_valueChanged(int value);
+
+    void on_minSlider3_valueChanged(int value);
+
+    void on_maxSlider1_valueChanged(int value);
+
+    void on_maxSlider2_valueChanged(int value);
+
+    void on_maxSlider3_valueChanged(int value);
+
+    void on_backgroudCalibration_clicked();
+
+
+    void on_getThreshold_clicked();
+
+    void on_backgroudCalibration_released();
+
 private:
     Ui::MainWindow *ui;
     QImage MainWindow::convertOpenCVMatToQtQImage(cv::Mat mat);
@@ -64,7 +83,8 @@ private:
      int blurSize;
      std::vector<std::vector<cv::Point> > contours;
      std::vector<cv::Vec4i> hierarchy;
-
+    cv::Mat m_bg;
+    cv::Mat background_frame;
     //cv::Ptr<cv::BackgroundSubtractorMOG2> pMOG;
 
 };
