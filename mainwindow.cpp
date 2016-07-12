@@ -57,7 +57,7 @@ MainWindow::~MainWindow()
 
 void MainWindow::updateGUI(){
 
-  cv::Mat frame2,contourMat,fore,back,skin_frame,min_frame, max_frame,canny_frame,adaptive_frame;
+  cv::Mat frame2,contourMat,fore,back,skin_frame,min_frame, max_frame,canny_frame,adaptive_frame,inrange_frame;
 
   min_frame.setTo(cv::Scalar(0,133,77));
   max_frame.setTo(cv::Scalar(255,173,127));
@@ -70,11 +70,12 @@ void MainWindow::updateGUI(){
    cv::flip(m_frame_col,m_frame_col,1);
    cv::cvtColor(m_frame_col,m_frame,CV_BGR2GRAY);
    cv::cvtColor(m_frame_col,frame_gray,CV_BGR2GRAY);
+   cv::bitwise_not(m_frame,m_frame);
 //   cv::inRange(m_frame,cv::Scalar(min_1,min_2,min_3),cv::Scalar(max_1,max_2,max_3),skin_frame);
 //   cv::blur(m_frame,m_frame,blurMask);
-   cv::GaussianBlur(m_frame,m_frame,cv::Size(7,7),3,3);
+//   cv::GaussianBlur(m_frame,m_frame,cv::Size(7,7),3,3);
 //   adaptive_mask = (2*thresholdSliderValue) +1;
-//  cv::adaptiveThreshold(frame_gray,frame_gray,255,CV_ADAPTIVE_THRESH_MEAN_C,CV_THRESH_BINARY,13,1);
+//  cv::adaptiveThreshold(m_frame,m_frame,255,CV_ADAPTIVE_THRESH_MEAN_C,CV_THRESH_BINARY,13,1);
   //cv::threshold(m_frame,m_frame,threshold_val,255,1);
 //  cv::Mat dilate_mask = cv::getStructuringElement(cv::MORPH_RECT,cv::Size(dilate_size,dilate_size));
 //  cv::dilate(m_frame,m_frame,dilate_mask);
@@ -90,14 +91,18 @@ void MainWindow::updateGUI(){
         m_cap>>background_frame;
         cv::flip(background_frame,background_frame,1);
         cv::cvtColor(background_frame,background_frame,CV_BGR2GRAY);
-        cv::GaussianBlur(background_frame,background_frame,cv::Size(7,7),3,3);
+
+//        cv::GaussianBlur(background_frame,background_frame,cv::Size(7,7),3,3);
+//          cv::adaptiveThreshold(m_frame,m_frame,255,CV_ADAPTIVE_THRESH_MEAN_C,CV_THRESH_BINARY,13,1);
         background_frame_button=false;
     }//else(background_frame = cv::Scalar::all(0));
 
     if(m_frame.cols==background_frame.cols && m_frame.rows==background_frame.rows ){
-        m_frame = m_frame - background_frame;
-    //cv::bitwise_not(m_frame,m_frame);
+        //m_frame = m_frame - background_frame;
 
+        cv::subtract(m_frame,background_frame,frame2);
+    //cv::bitwise_not(m_frame,m_frame);
+        cv::inRange(frame2,cv::Scalar(threshold_val-10),cv::Scalar(threshold_val+10),inrange_frame);
         cv::findContours(m_frame,contours,hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
         cv::imshow("bg im",background_frame);
 
@@ -149,7 +154,7 @@ void MainWindow::updateGUI(){
     }
 
   ui->meanIntensityLabel->setNum(threshold_val);
-  qframe = convertOpenCVMatToQtQImage(m_frame);
+  qframe = convertOpenCVMatToQtQImage(inrange_frame);
   QPixmap pix = QPixmap::fromImage(qframe);
   ui->videoScreen->setPixmap(pix);
 }
