@@ -79,14 +79,14 @@ private:
     QImage MainWindow::convertOpenCVMatToQtQImage(cv::Mat mat);
     QTimer *timer;
       cv::VideoCapture m_cap;
-     int thresholdSliderValue;
+     int thresholdSliderValue,thresholdSliderValue1;
      int blurSize;
      std::vector<std::vector<cv::Point> > contours;
      std::vector<cv::Vec4i> hierarchy;
     cv::Mat m_bg;
     cv::Mat background_frame;
     //cv::Ptr<cv::BackgroundSubtractorMOG2> pMOG;
-
+     cv::SimpleBlobDetector::Params params;
 };
 
 #endif // MAINWINDOW_H
