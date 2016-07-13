@@ -81,8 +81,10 @@ private:
       cv::VideoCapture m_cap;
      int thresholdSliderValue,thresholdSliderValue1;
      int blurSize;
-     std::vector<std::vector<cv::Point> > contours;
-     std::vector<cv::Vec4i> hierarchy;
+     cv::Scalar roiMean1,roiMean2,roiMean3,roiMean4,roiSD ;
+    cv::vector<cv::vector<cv::Point> > contours;
+     cv::vector<cv::Vec4i> hierarchy;
+
     cv::Mat m_bg;
     cv::Mat background_frame;
     //cv::Ptr<cv::BackgroundSubtractorMOG2> pMOG;

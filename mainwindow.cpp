@@ -25,7 +25,6 @@ cv::Ptr<cv::BackgroundSubtractor> pMOG2 = cv::Algorithm::create<cv::BackgroundSu
 cv::Ptr<cv::BackgroundSubtractor> pGMG = cv::Algorithm::create<cv::BackgroundSubtractorGMG>("BackgroundSubtractor.GMG"); //MOG2 Background subtractor
 //cv::Ptr<cv::SimpleBlobDetector> blobDetector = cv::Algorithm::create<cv::SimpleBlobDetector>("SimpleBlobDetector");
 bool background_frame_button = false;
- cv::Scalar roiMean1,roiMean2,roiMean3,roiMean4,roiSD ;
 
 
 
@@ -66,22 +65,22 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::updateGUI(){
-cv::SimpleBlobDetector blob_detector(params);
-  cv::Mat frame2,contourMat,fore,back,skin_frame,min_frame,frame_hsv_threshold,frame_hsv,frame_median_blur,frame_gray_blur,frame_threshold, max_frame,canny_frame,adaptive_frame,ycc_blur_frame,inrange_frame,ycc_frame,ycc_frame1,ycc_frame2,ycc_frame3,ycc_frame4;
+//cv::SimpleBlobDetector blob_detector(params);
+  cv::Mat frame_hsv_threshold,frame_hsv,frame_hsv_contours,frame_threshold;
 
-  min_frame.setTo(cv::Scalar(0,133,77));
-  max_frame.setTo(cv::Scalar(255,173,127));
+//  min_frame.setTo(cv::Scalar(0,133,77));
+//  max_frame.setTo(cv::Scalar(255,173,127));
 
 
   QImage qframe;
-  cv::Size blurMask = cv::Size(6,6);
+//  cv::Size blurMask = cv::Size(6,6);
 
    m_cap>>m_frame_col;
    cv::copyMakeBorder(m_frame_col,m_frame_col,10,10,10,10,cv::BORDER_CONSTANT ,cv::Scalar(255,255,255));
 
    cv::flip(m_frame_col,m_frame_col,1);
-   cv::cvtColor(m_frame_col,m_frame,CV_BGR2GRAY);
-   cv::cvtColor(m_frame_col,frame_gray,CV_BGR2GRAY);
+  cv::cvtColor(m_frame_col,m_frame,CV_BGR2GRAY);
+//   cv::cvtColor(m_frame_col,frame_gray,CV_BGR2GRAY);
    cv::cvtColor(m_frame_col,frame_hsv,CV_BGR2YCrCb);
    //cv::cvtColor(m_frame_col,ycc_frame,CV_BGR2HSV);
 
@@ -101,27 +100,26 @@ cv::SimpleBlobDetector blob_detector(params);
   // cv::GaussianBlur(frame_gray,frame_gray_blur,cv::Size(7,7),3,3);
 //   adaptive_mask = (2*thresholdSliderValue) +1;
       //cv::GaussianBlur(m_frame,m_frame,cv::Size(7,7),3,3);
-      //cv::threshold(m_frame,m_frame,thresholdSliderValue,255,1);
+      cv::threshold(m_frame,m_frame,thresholdSliderValue,255,1);
   //cv::adaptiveThreshold(m_frame,m_frame,255,CV_ADAPTIVE_THRESH_MEAN_C,CV_THRESH_BINARY,13,1);
-  cv::bilateralFilter(m_frame,frame_gray_blur,9,32,260);
-  cv::adaptiveThreshold(frame_gray_blur,frame_threshold,255,CV_ADAPTIVE_THRESH_MEAN_C,CV_THRESH_BINARY,5,1);
+//  cv::bilateralFilter(m_frame,frame_gray_blur,9,32,260);
+//  cv::adaptiveThreshold(frame_gray_blur,frame_threshold,255,CV_ADAPTIVE_THRESH_MEAN_C,CV_THRESH_BINARY,5,1);
 
 
 //  cv::Canny(m_frame,m_frame,thresholdSliderValue,thresholdSliderValue1);
 
 //  cv::bitwise_not(m_frame,m_frame);
 
-  cv::Mat dilate_mask = cv::getStructuringElement(cv::MORPH_ELLIPSE,cv::Size(7,min_1));
-  cv::dilate(frame_hsv_threshold,frame_hsv_threshold,dilate_mask);
-  cv::Mat erode_mask = cv::getStructuringElement(cv::MORPH_ELLIPSE,cv::Size(min_2,min_2));
-  cv::erode(frame_hsv_threshold,frame_hsv_threshold,erode_mask);
 
+    //m_frame = frame_hsv_threshold;
+  if(!frame_hsv_threshold.empty()){
+      cv::Mat dilate_mask = cv::getStructuringElement(cv::MORPH_ELLIPSE,cv::Size(8,8));
+      cv::Mat erode_mask = cv::getStructuringElement(cv::MORPH_ELLIPSE,cv::Size(2,2));
+       cv::dilate(frame_hsv_threshold,frame_hsv_threshold,dilate_mask);
+       cv::erode(frame_hsv_threshold,frame_hsv_threshold,erode_mask);
+      frame_hsv_contours = frame_hsv_threshold;
+    cv::findContours(frame_hsv_contours,contours, hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
 
-  cv::vector<cv::KeyPoint> keypoints;
-
-
-
-cv::findContours(frame_threshold,contours,hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
 
   double largest_area = 0;
   int largest_contour_index= 0;
@@ -135,11 +133,13 @@ cv::findContours(frame_threshold,contours,hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX
       }
 
   }
+     cv::drawContours(m_frame_col,contours,largest_contour_index,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
 
-  for( int i = 0; i< contours.size(); i++ ){
-    if (cv::contourArea(contours[i],false)>50000){
-    cv::drawContours(m_frame_col,contours,i,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
-    }
+//  for( int i = 0; i< contours.size(); i++ ){
+//    if (cv::contourArea(contours[i],false)>50000){
+//    cv::drawContours(m_frame_col,contours,i,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
+//    }
+//  }
   }
     //cv::threshold(m_frame,m_frame,threshold_val,255,1);
 
@@ -149,38 +149,38 @@ cv::findContours(frame_threshold,contours,hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX
 //    pMOG2->operator()(frame_gray, fgMaskMOG2,-0.5);
 //    pGMG->operator()(frame_gray, fgMaskGMG,0.1);
 
-//    if(background_frame_button){
-//        m_cap>>background_frame;
-//        cv::flip(background_frame,background_frame,1);
-//        cv::cvtColor(background_frame,background_frame,CV_BGR2GRAY);
+    if(background_frame_button){
+        m_cap>>background_frame;
+        cv::flip(background_frame,background_frame,1);
+        cv::cvtColor(background_frame,background_frame,CV_BGR2HSV);
 
-////        cv::GaussianBlur(background_frame,background_frame,cv::Size(7,7),3,3);
-////          cv::adaptiveThreshold(m_frame,m_frame,255,CV_ADAPTIVE_THRESH_MEAN_C,CV_THRESH_BINARY,13,1);
-//        background_frame_button=false;
-//    }//else(background_frame = cv::Scalar::all(0));
+//        cv::GaussianBlur(background_frame,background_frame,cv::Size(7,7),3,3);
+//          cv::adaptiveThreshold(m_frame,m_frame,255,CV_ADAPTIVE_THRESH_MEAN_C,CV_THRESH_BINARY,13,1);
+        background_frame_button=false;
+    }//else(background_frame = cv::Scalar::all(0));
 
-//    if(m_frame.cols==background_frame.cols && m_frame.rows==background_frame.rows ){
-//        //m_frame = m_frame - background_frame;
+    if(m_frame_col.cols==background_frame.cols && m_frame_col.rows==background_frame.rows ){
+        //m_frame = m_frame - background_frame;
 
-//       // cv::subtract(m_frame,background_frame,frame2);
-//    //cv::bitwise_not(m_frame,m_frame);
-//        cv::inRange(frame2,cv::Scalar(threshold_val-30),cv::Scalar(threshold_val+30),inrange_frame);
+       cv::subtract(frame_hsv,background_frame,frame_hsv);
+    //cv::bitwise_not(m_frame,m_frame);
+       // cv::inRange(frame2,cv::Scalar(threshold_val-30),cv::Scalar(threshold_val+30),inrange_frame);
 
 
-////        if(m_frame.channels()==1){
-////       uchar pixel;
-////       uchar white =255;
-////        for(int i=0; i<m_frame.rows;i++){
-////            for(int j=0; j<m_frame.cols;j++){
-////                pixel = m_frame.at<uchar>(i,j)- background_frame.at<uchar>(i,j);
-////                if(pixel<0 ){
-////                    m_frame.at<uchar>(i,j)=white;
-////                }else(m_frame.at<uchar>(i,j)=pixel);
-////               // qDebug()<<i<<", "<<j;
-////            }
-////        }
-////    }else(qDebug()<<"subtraction only works on binary images");
-//    }
+//        if(m_frame.channels()==1){
+//       uchar pixel;
+//       uchar white =255;
+//        for(int i=0; i<m_frame.rows;i++){
+//            for(int j=0; j<m_frame.cols;j++){
+//                pixel = m_frame.at<uchar>(i,j)- background_frame.at<uchar>(i,j);
+//                if(pixel<0 ){
+//                    m_frame.at<uchar>(i,j)=white;
+//                }else(m_frame.at<uchar>(i,j)=pixel);
+//               // qDebug()<<i<<", "<<j;
+//            }
+//        }
+//    }else(qDebug()<<"subtraction only works on binary images");
+    }
 
  //
 
@@ -213,7 +213,7 @@ cv::findContours(frame_threshold,contours,hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX
     }
 cv::imshow("sdaf",frame_hsv);
   ui->meanIntensityLabel->setNum(threshold_val);
-  qframe = convertOpenCVMatToQtQImage(frame_hsv_threshold);
+  qframe = convertOpenCVMatToQtQImage(m_frame_col);
   QPixmap pix = QPixmap::fromImage(qframe);
   ui->videoScreen->setPixmap(pix);
 }
