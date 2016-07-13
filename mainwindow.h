@@ -85,6 +85,7 @@ private:
     cv::vector<cv::vector<cv::Point> > contours;
      cv::vector<cv::Vec4i> hierarchy;
 
+    cv::vector<cv::Point> points;
     cv::Mat m_bg;
     cv::Mat background_frame;
     //cv::Ptr<cv::BackgroundSubtractorMOG2> pMOG;

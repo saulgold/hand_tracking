@@ -26,6 +26,8 @@ cv::Ptr<cv::BackgroundSubtractor> pGMG = cv::Algorithm::create<cv::BackgroundSub
 //cv::Ptr<cv::SimpleBlobDetector> blobDetector = cv::Algorithm::create<cv::SimpleBlobDetector>("SimpleBlobDetector");
 bool background_frame_button = false;
 
+cv::vector< cv::vector< cv::Point> >hull;
+
 
 
 
@@ -119,6 +121,7 @@ void MainWindow::updateGUI(){
        cv::erode(frame_hsv_threshold,frame_hsv_threshold,erode_mask);
       frame_hsv_contours = frame_hsv_threshold;
     cv::findContours(frame_hsv_contours,contours, hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
+    cv::findContours(frame_hsv_contours,hull, hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
 
 
   double largest_area = 0;
@@ -133,9 +136,20 @@ void MainWindow::updateGUI(){
       }
 
   }
-     cv::drawContours(m_frame_col,contours,largest_contour_index,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
 
-//  for( int i = 0; i< contours.size(); i++ ){
+  for( size_t i = 0; i < contours.size(); i++ )
+     {   convexHull( contours[i], hull[i], false ); }
+
+
+ // cv::polylines(m_frame_col,hull,true,cv::Scalar(0,200,0),2,8,0);
+  //cv::convexHull( cv::Mat(contours[largest_contour_index]), hull, false,false );
+ cv::drawContours(m_frame_col,contours,largest_contour_index,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
+
+ cv::drawContours(m_frame_col,hull,largest_contour_index,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
+
+
+
+      //  for( int i = 0; i< contours.size(); i++ ){
 //    if (cv::contourArea(contours[i],false)>50000){
 //    cv::drawContours(m_frame_col,contours,i,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
 //    }
@@ -212,6 +226,7 @@ void MainWindow::updateGUI(){
 
     }
 cv::imshow("sdaf",frame_hsv);
+//cv::imshow("threhs",frame_hsv_threshold);
   ui->meanIntensityLabel->setNum(threshold_val);
   qframe = convertOpenCVMatToQtQImage(m_frame_col);
   QPixmap pix = QPixmap::fromImage(qframe);
