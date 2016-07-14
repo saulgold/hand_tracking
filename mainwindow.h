@@ -84,7 +84,7 @@ private:
      cv::Scalar roiMean1,roiMean2,roiMean3,roiMean4,roiSD ;
     cv::vector<cv::vector<cv::Point> > contours;
      cv::vector<cv::Vec4i> hierarchy;
-
+    cv::vector<cv::Point> max_contour, max_convex;
     cv::vector<cv::Point> points;
     cv::Mat m_bg;
     cv::Mat background_frame;

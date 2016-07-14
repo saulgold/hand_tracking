@@ -28,6 +28,9 @@ bool background_frame_button = false;
 
 cv::vector< cv::vector< cv::Point> >hull;
 
+cv::vector< cv::Vec4i> defects;
+
+
 
 
 
@@ -83,7 +86,7 @@ void MainWindow::updateGUI(){
    cv::flip(m_frame_col,m_frame_col,1);
   cv::cvtColor(m_frame_col,m_frame,CV_BGR2GRAY);
 //   cv::cvtColor(m_frame_col,frame_gray,CV_BGR2GRAY);
-   cv::cvtColor(m_frame_col,frame_hsv,CV_BGR2YCrCb);
+   cv::cvtColor(m_frame_col,frame_hsv,CV_BGR2GRAY);
    //cv::cvtColor(m_frame_col,ycc_frame,CV_BGR2HSV);
 
   // cv::bitwise_not(m_frame,m_frame);
@@ -123,10 +126,12 @@ void MainWindow::updateGUI(){
     cv::findContours(frame_hsv_contours,contours, hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
     cv::findContours(frame_hsv_contours,hull, hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
 
-
-  double largest_area = 0;
+    if(!contours.empty()){
+ std::vector<int>  hull_ind;
+cv::vector<cv::Vec4i> convDef;
+ double largest_area = 0;
   int largest_contour_index= 0;
-
+cv::Mat asd;
   for(int i=0; i < contours.size();i++){
       double area = cv::contourArea(contours[i],false);
 
@@ -136,24 +141,66 @@ void MainWindow::updateGUI(){
       }
 
   }
+//  std::vector<std::vector<int> > hullsI(contours.size()); // Indices to contour points
+//  std::vector<std::vector<cv::Vec4i>> defects(contours.size());
+//  for (int i = 0; i < contours.size(); i++)
+//  {
+//      cv::convexHull(contours[i], hull[i], false);
+//      cv::convexHull(contours[i], hullsI[i], false,false);
+////      if(hullsI[i].size() > 3 ) // You need more than 3 indices
+////      {
+////          cv::convexityDefects(contours[i], hullsI[i], defects[i]);
+////      }
+//  }
+  //cv::convexHull(contours[largest_contour_index], hull_ind,false,false);
+  //  cv::convexityDefects(cv::Mat(contours[largest_contour_index]),cv::Mat(hull[largest_contour_index]),asd);
 
-  for( size_t i = 0; i < contours.size(); i++ )
-     {   convexHull( contours[i], hull[i], false ); }
 
-
+  //  cv::convexityDefects(contours,hull[largest_contour_index],defects);
  // cv::polylines(m_frame_col,hull,true,cv::Scalar(0,200,0),2,8,0);
-  //cv::convexHull( cv::Mat(contours[largest_contour_index]), hull, false,false );
- cv::drawContours(m_frame_col,contours,largest_contour_index,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
+  cv::convexHull( cv::Mat(contours[largest_contour_index]), hull[largest_contour_index], false,false );
+
+  std::vector<cv::Moments> mu(contours.size() );
+    for( int i = 0; i < contours.size(); i++ )
+       { mu[i] = moments( contours[i], false ); }
+
+    std::vector<cv::Point2f> mc( contours.size() );
+     for( int i = 0; i < contours.size(); i++ )
+        { mc[i] = cv::Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 ); }
+
+
+  cv::drawContours(m_frame_col,contours,largest_contour_index,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
 
  cv::drawContours(m_frame_col,hull,largest_contour_index,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
+ circle( m_frame_col, mc[largest_contour_index], 4, cv::Scalar(30,55,190), -1, 8, 0 );
 
+max_contour = contours[largest_contour_index];
+max_convex = hull[largest_contour_index];
+std::vector<cv::Point> tips;
+int k = 0;
+    for(int i=0; i<max_contour.size();i++){
+        for(int j=0; j<max_convex.size();j++){
+            if (cv::norm(cv::Mat(max_contour[i]),cv::Mat(max_convex[j]))==0){
+                tips.push_back(max_contour[i]);
+                k++;
 
+            }
+        }
+    }
+for(int i = 0 ; i<tips.size();i++){
+    cv::circle( m_frame_col, tips[i], 4, cv::Scalar(255,0,255), -1, 8, 0 );
+
+}
+//    for(int i = 0;i<tips.size();i++){
+//        circle( m_frame_col, tips[i], 4, cv::Scalar(235,55,190), -1, 8, 0 );
+//    }
 
       //  for( int i = 0; i< contours.size(); i++ ){
 //    if (cv::contourArea(contours[i],false)>50000){
 //    cv::drawContours(m_frame_col,contours,i,cv::Scalar(255,0,50),2,8,hierarchy, 0, cv::Point());
 //    }
 //  }
+   }
   }
     //cv::threshold(m_frame,m_frame,threshold_val,255,1);
 
@@ -211,8 +258,13 @@ void MainWindow::updateGUI(){
 //        cv::Mat roi2 = ycc_frame(cv::Rect(190,130,40,40));
 //        cv::Mat roi3 = ycc_frame(cv::Rect(130,190,40,40));
 //        cv::Mat roi4 = ycc_frame(cv::Rect(190,190,40,40));
+//    cv::Rect hand_rect = cv::Rect(100,100,100,100);
+//    cv::RotatedRect tracked_rect = cv::CamShift(frame_hsv,hand_rect, cv::TermCriteria( cv::TermCriteria::EPS | cv::TermCriteria::COUNT, 10, 1 ));
+   // cv::Rect tracked_rect_conv = tracked_rect.boundingRect();
+ //   cv::rectangle(frame_hsv,tracked_rect_conv,cv::Scalar(255,0,100));
 
         cv::meanStdDev(roi1,roiMean1,roiSD);
+         // cv::calcHist(roi1,,mask,roi_hist
 //        n2 = cv::mean(roi2);
 //        roiMean3 = cv::mean(roi3);
 //        roiMean4 = cv::mean(roi4);

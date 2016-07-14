@@ -11,7 +11,10 @@ greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 TARGET = opencvTest
 TEMPLATE = app
 
-QMAKE_LFLAGS +=/STACK:32000000
+QMAKE_LFLAGS +=/STACK:64000000
+
+Release:QMAKE_CXXFLAGS += /MT
+Debug:QMAKE_CXXFLAGS += /MTd
 
 SOURCES += main.cpp\
         mainwindow.cpp
