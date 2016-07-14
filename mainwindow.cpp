@@ -27,7 +27,7 @@ cv::Ptr<cv::BackgroundSubtractor> pGMG = cv::Algorithm::create<cv::BackgroundSub
 bool background_frame_button = false;
 int m_number_of_fingers;
 cv::vector< cv::vector< cv::Point> >hull;
-
+cv::vector<cv::Point> fingers;
 cv::vector< cv::Vec4i> defects;
 
 
@@ -209,13 +209,23 @@ for(int i = 1 ; i<tips.size();i++){
 
     distance = cv::norm(cv::Mat(tips[i-1]),cv::Mat(tips[i]));
     centre_distance = cv::norm(cv::Mat(tips[i]),cv::Mat(centre_point));
-     if(distance>20 && tips[i].y <  mc[largest_contour_index].y &&centre_distance >200 ){
+     if(distance>20 && tips[i].y <  mc[largest_contour_index].y &&centre_distance >100 ){
     m_number_of_fingers++;
+    //fingers[i]=tips[i];
     cv::circle( m_frame_col, tips[i], 4, cv::Scalar(255,0,255), -1, 8, 0 );
      }
 
 }
 
+if(m_number_of_fingers ==2){
+    ui->gesture_label->setText(QString("peace"));
+
+    ui->lcdNumber_2->display(int(fingers.size()));
+}
+else if(m_number_of_fingers== 5){
+    ui->gesture_label->setText(QString("open hand"));
+}
+else(ui->gesture_label->setText(QString("gesture")));
 ui->lcdNumber->display(int(m_number_of_fingers));
 //    for(int i = 0;i<tips.size();i++){
 //        circle( m_frame_col, tips[i], 4, cv::Scalar(235,55,190), -1, 8, 0 );
