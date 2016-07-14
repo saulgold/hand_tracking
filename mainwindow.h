@@ -50,23 +50,27 @@ public:
 
 private slots:
     void updateGUI();
+   void on_getThreshold_clicked();
 
-    void on_thresholdSlider_valueChanged(int value);
 
-    void on_blurSlider_valueChanged(int value);
 
 private:
     Ui::MainWindow *ui;
     QImage MainWindow::convertOpenCVMatToQtQImage(cv::Mat mat);
     QTimer *timer;
       cv::VideoCapture m_cap;
-     int thresholdSliderValue;
+     int thresholdSliderValue,thresholdSliderValue1;
      int blurSize;
-     std::vector<std::vector<cv::Point> > contours;
-     std::vector<cv::Vec4i> hierarchy;
-
-    //cv::Ptr<cv::BackgroundSubtractorMOG2> pMOG;
-
+     cv::Scalar roiMean1,roiMean2,roiMean3,roiMean4,roiSD ;
+    cv::vector<cv::vector<cv::Point> > contours;
+     cv::vector<cv::Vec4i> hierarchy;
+    cv::vector<cv::Point> max_contour, max_convex;
+    cv::vector<cv::Point> points;
+    bool mean_button;
+    cv::Mat roi1;
+    cv::Mat frame_hsv;
+    cv::Mat frame_hsv_threshold,frame_hsv_contours;
+    QImage qframe;
 };
 
 #endif // MAINWINDOW_H

@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>911</width>
+    <width>811</width>
     <height>619</height>
    </rect>
   </property>
@@ -17,8 +17,8 @@
    <widget class="QLabel" name="videoScreen">
     <property name="geometry">
      <rect>
-      <x>50</x>
-      <y>40</y>
+      <x>30</x>
+      <y>20</y>
       <width>721</width>
       <height>491</height>
      </rect>
@@ -27,103 +27,78 @@
      <string>TextLabel</string>
     </property>
    </widget>
-   <widget class="QSlider" name="thresholdSlider">
+   <widget class="QPushButton" name="getThreshold">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>220</y>
-      <width>22</width>
-      <height>160</height>
+      <x>410</x>
+      <y>570</y>
+      <width>75</width>
+      <height>23</height>
      </rect>
     </property>
-    <property name="maximum">
-     <number>255</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="text">
+     <string>Calibrate</string>
     </property>
    </widget>
-   <widget class="QSlider" name="blurSlider">
+   <widget class="QLCDNumber" name="lcdNumber">
     <property name="geometry">
      <rect>
-      <x>770</x>
-      <y>220</y>
-      <width>22</width>
-      <height>160</height>
+      <x>250</x>
+      <y>70</y>
+      <width>64</width>
+      <height>23</height>
      </rect>
     </property>
-    <property name="minimum">
-     <number>2</number>
-    </property>
-    <property name="maximum">
-     <number>20</number>
-    </property>
-    <property name="orientation">
-     <enum>Qt::Vertical</enum>
+    <property name="autoFillBackground">
+     <bool>false</bool>
     </property>
    </widget>
-   <widget class="QLabel" name="blurLabel">
+   <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>760</x>
-      <y>400</y>
+      <x>150</x>
+      <y>70</y>
+      <width>111</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Number of fingers</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="gesture_label">
+    <property name="geometry">
+     <rect>
+      <x>450</x>
+      <y>80</y>
       <width>47</width>
       <height>13</height>
      </rect>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string>gesture</string>
     </property>
    </widget>
-   <widget class="QLabel" name="thresholdLabel">
+   <widget class="QTextEdit" name="textEdit">
     <property name="geometry">
      <rect>
-      <x>820</x>
-      <y>400</y>
-      <width>47</width>
-      <height>13</height>
+      <x>60</x>
+      <y>560</y>
+      <width>291</width>
+      <height>41</height>
      </rect>
     </property>
-    <property name="text">
-     <string>TextLabel</string>
+    <property name="html">
+     <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Place hand in box and press calibrate, to calibrate the tracking system&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
    </widget>
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>
- <connections>
-  <connection>
-   <sender>blurSlider</sender>
-   <signal>sliderMoved(int)</signal>
-   <receiver>blurLabel</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>780</x>
-     <y>375</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>781</x>
-     <y>411</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>thresholdSlider</sender>
-   <signal>sliderMoved(int)</signal>
-   <receiver>thresholdLabel</receiver>
-   <slot>setNum(int)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>825</x>
-     <y>378</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>832</x>
-     <y>406</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>
