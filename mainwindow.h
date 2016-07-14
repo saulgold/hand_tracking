@@ -50,29 +50,9 @@ public:
 
 private slots:
     void updateGUI();
-
-    void on_thresholdSlider_valueChanged(int value);
-
-    void on_blurSlider_valueChanged(int value);
-
-    void on_minSlider1_valueChanged(int value);
-
-    void on_minSlider2_valueChanged(int value);
-
-    void on_minSlider3_valueChanged(int value);
-
-    void on_maxSlider1_valueChanged(int value);
-
-    void on_maxSlider2_valueChanged(int value);
-
-    void on_maxSlider3_valueChanged(int value);
-
-    void on_backgroudCalibration_clicked();
+   void on_getThreshold_clicked();
 
 
-    void on_getThreshold_clicked();
-
-    void on_backgroudCalibration_released();
 
 private:
     Ui::MainWindow *ui;
@@ -86,10 +66,11 @@ private:
      cv::vector<cv::Vec4i> hierarchy;
     cv::vector<cv::Point> max_contour, max_convex;
     cv::vector<cv::Point> points;
-    cv::Mat m_bg;
-    cv::Mat background_frame;
-    //cv::Ptr<cv::BackgroundSubtractorMOG2> pMOG;
-     cv::SimpleBlobDetector::Params params;
+    bool mean_button;
+    cv::Mat roi1;
+    cv::Mat frame_hsv;
+    cv::Mat frame_hsv_threshold,frame_hsv_contours;
+    QImage qframe;
 };
 
 #endif // MAINWINDOW_H
