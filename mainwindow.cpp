@@ -25,7 +25,7 @@ cv::Ptr<cv::BackgroundSubtractor> pMOG2 = cv::Algorithm::create<cv::BackgroundSu
 cv::Ptr<cv::BackgroundSubtractor> pGMG = cv::Algorithm::create<cv::BackgroundSubtractorGMG>("BackgroundSubtractor.GMG"); //MOG2 Background subtractor
 //cv::Ptr<cv::SimpleBlobDetector> blobDetector = cv::Algorithm::create<cv::SimpleBlobDetector>("SimpleBlobDetector");
 bool background_frame_button = false;
-
+int m_number_of_fingers;
 cv::vector< cv::vector< cv::Point> >hull;
 
 cv::vector< cv::Vec4i> defects;
@@ -125,7 +125,6 @@ void MainWindow::updateGUI(){
       frame_hsv_contours = frame_hsv_threshold;
     cv::findContours(frame_hsv_contours,contours, hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
     cv::findContours(frame_hsv_contours,hull, hierarchy,CV_RETR_TREE,CV_CHAIN_APPROX_NONE,cv::Point(0,0));
-
     if(!contours.empty()){
  std::vector<int>  hull_ind;
 cv::vector<cv::Vec4i> convDef;
@@ -177,20 +176,47 @@ cv::Mat asd;
 max_contour = contours[largest_contour_index];
 max_convex = hull[largest_contour_index];
 std::vector<cv::Point> tips;
+cv::Point centre_point = mc[largest_contour_index];
 int k = 0;
-    for(int i=0; i<max_contour.size();i++){
-        for(int j=0; j<max_convex.size();j++){
+int i=0;
+int j=0;
+    for( i=0; i<max_contour.size();i++){
+        for( j=0; j<max_convex.size();j++){
             if (cv::norm(cv::Mat(max_contour[i]),cv::Mat(max_convex[j]))==0){
+
                 tips.push_back(max_contour[i]);
                 k++;
 
             }
         }
     }
-for(int i = 0 ; i<tips.size();i++){
+
+
+
+
+
+//for(int i = 0 ; i<tips.size();i++){
+//    for(int j = 0 ; j<tips.size();j++){
+//        if(cv::norm(cv::Mat(tips[i]),cv::Mat(tips[j]))<5){
+//            tips[j] = cv::Point(0,0);
+//         }
+//    }
+//}
+   double distance = 0 ;
+   double centre_distance=0;
+   m_number_of_fingers=0;
+for(int i = 1 ; i<tips.size();i++){
+
+    distance = cv::norm(cv::Mat(tips[i-1]),cv::Mat(tips[i]));
+    centre_distance = cv::norm(cv::Mat(tips[i]),cv::Mat(centre_point));
+     if(distance>20 && tips[i].y <  mc[largest_contour_index].y &&centre_distance >200 ){
+    m_number_of_fingers++;
     cv::circle( m_frame_col, tips[i], 4, cv::Scalar(255,0,255), -1, 8, 0 );
+     }
 
 }
+
+ui->lcdNumber->display(int(m_number_of_fingers));
 //    for(int i = 0;i<tips.size();i++){
 //        circle( m_frame_col, tips[i], 4, cv::Scalar(235,55,190), -1, 8, 0 );
 //    }
