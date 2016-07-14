@@ -1,6 +1,9 @@
 # hand_tracking
 handtracking project for music group
 
+#demo
+https://www.youtube.com/watch?v=XNB4vRzdzkU
+
 #requirements
 opencv 2.4.13
 Qt creator 5.5
@@ -19,4 +22,8 @@ the points that lie on the hull and the contour and are suffciently far from the
 
 gesture recognition is simply done by counting the available fingers, with improvments to more complex gestures to follow
 
+#limitations
+noise free background (white)
+one hand only
+due to calibration method, the program may work in a noisy background if a glove is worn
 
